@@ -9,7 +9,7 @@ function CreatePage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false)
-  const [roastData, setRoastData] = useState({ show: false, text: "", gifUrl: "", mediaType: "gif", soundUrl: "" })
+  const [roastData, setRoastData] = useState({ show: false, text: "", gifUrl: "", mediaType: "gif", soundUrl: "", soundName: "" })
 
   const navigate = useNavigate();
 
@@ -30,7 +30,8 @@ function CreatePage() {
           text: res.data.roast.text,
           gifUrl: res.data.roast.gifUrl,
           mediaType: res.data.roast.mediaType || "gif",
-          soundUrl: res.data.roast.soundUrl
+          soundUrl: res.data.roast.soundUrl,
+          soundName: res.data.roast.soundName || ""
         })
       } else {
         navigate("/")
@@ -106,8 +107,9 @@ function CreatePage() {
         gifUrl={roastData.gifUrl}
         mediaType={roastData.mediaType}
         soundUrl={roastData.soundUrl}
+        soundName={roastData.soundName}
         onClose={() => {
-          setRoastData({ show: false, text: "", gifUrl: "", mediaType: "gif", soundUrl: "" });
+          setRoastData({ show: false, text: "", gifUrl: "", mediaType: "gif", soundUrl: "", soundName: "" });
           navigate("/");
         }}
       />

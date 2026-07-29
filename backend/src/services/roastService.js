@@ -2,13 +2,33 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // ─────────────────────────────────────────────────────────────
-// LOCAL ROAST DATABASE (used when Gemini API key is not set)
+// INSTAGRAM & TIKTOK VIRAL SOUNDBOARD LIBRARY
+// ─────────────────────────────────────────────────────────────
+const VIRAL_SOUNDS = [
+  { name: "Faah / Huh Meme 🔊", url: "https://www.myinstants.com/media/sounds/huh-cat-meme-sound.mp3" },
+  { name: "Vine Boom 💥", url: "https://www.myinstants.com/media/sounds/vine-boom.mp3" },
+  { name: "Emotional Damage! 💔", url: "https://www.myinstants.com/media/sounds/emotional-damage-meme.mp3" },
+  { name: "Bruh Moment 🤦‍♂️", url: "https://www.myinstants.com/media/sounds/bruh.mp3" },
+  { name: "Oh No No No Laugh 😭", url: "https://www.myinstants.com/media/sounds/oh-no-no-no-tik-tok-sound-effect.mp3" },
+  { name: "FBI Open Up! 🚨", url: "https://www.myinstants.com/media/sounds/fbi-open-up-sfx.mp3" },
+  { name: "Robert B. Weide Theme 🎬", url: "https://www.myinstants.com/media/sounds/directed-by-robert-b-weide.mp3" },
+  { name: "GigaChad Theme 🗿", url: "https://www.myinstants.com/media/sounds/gigachad-theme.mp3" },
+  { name: "Sad Violin 🎻", url: "https://www.myinstants.com/media/sounds/sadviolin.mp3" },
+  { name: "Metal Pipe Falling 🔔", url: "https://www.myinstants.com/media/sounds/metal-pipe-falling-sound-effect.mp3" },
+  { name: "The Rock Sus Eyebrow 🤨", url: "https://www.myinstants.com/media/sounds/the-rock-sus.mp3" },
+  { name: "Roblox Death Oof 💀", url: "https://www.myinstants.com/media/sounds/oof_x200.mp3" },
+  { name: "Taco Bell Bong 🔔", url: "https://www.myinstants.com/media/sounds/taco-bell-bong-sfx.mp3" },
+  { name: "Windows XP Fatal Error 💻", url: "https://www.myinstants.com/media/sounds/windows-xp-error.mp3" }
+];
+
+// ─────────────────────────────────────────────────────────────
+// LOCAL ROAST DATABASE (Fallback when Gemini is offline)
 // ─────────────────────────────────────────────────────────────
 const LOCAL_ROASTS = [
   {
     keywords: ["todo", "task", "job", "work", "study", "exam", "homework", "learn", "read", "plan", "schedule"],
     roasts: [
-      "Ah, another to-do list that will sit here collecting digital dust. We both know you're going to open YouTube instead.",
+      "Ah, another to-do list that will sit here collecting digital dust. We both know you're going to open Instagram Reels instead.",
       "Writing it down doesn't count as actually doing it, buddy. But nice try pretending you're being productive.",
       "A productivity note? Fascinating. Let me know when you actually start working rather than planning to plan.",
       "You've written more notes about studying than actual pages you've studied. That's impressive in the worst way."
@@ -33,39 +53,12 @@ const LOCAL_ROASTS = [
     ]
   },
   {
-    keywords: ["bug", "code", "error", "react", "mongoose", "backend", "programming", "javascript", "developer", "git", "deploy", "api", "css", "html"],
+    keywords: ["bug", "code", "error", "react", "mongoose", "backend", "programming", "javascript", "developer", "git", "deploy", "api"],
     roasts: [
       "One compiler error away from a complete emotional breakdown, aren't we?",
       "Your code has more bugs than a tropical rainforest. Have you tried turning your brain on?",
       "Writing down your code logic here because it certainly doesn't work inside your editor.",
       "Stack Overflow called. They said even THEY can't help you at this point."
-    ]
-  },
-  {
-    keywords: ["money", "salary", "broke", "buy", "shop", "pay", "rent", "loan", "invest", "crypto", "budget"],
-    roasts: [
-      "Writing about money in a free notes app. The irony is simply too perfect.",
-      "Your bank account just saw this note and filed a restraining order.",
-      "A budget plan? That's adorable. We both know you'll impulse-buy something useless by tomorrow.",
-      "Financial planning from someone who considers instant noodles a balanced meal. Inspiring."
-    ]
-  },
-  {
-    keywords: ["sleep", "tired", "nap", "insomnia", "rest", "bed", "wake", "morning", "night", "late"],
-    roasts: [
-      "Writing notes at this hour? Your body is begging you to sleep but you chose violence.",
-      "A note about sleep? The irony of being awake to write this is chef's kiss.",
-      "Maybe if you spent less time taking notes and more time in bed, you wouldn't look like a zombie.",
-      "Your sleep schedule is more broken than Internet Explorer. Just shut down already."
-    ]
-  },
-  {
-    keywords: ["food", "eat", "recipe", "cook", "pizza", "burger", "lunch", "dinner", "breakfast", "hungry", "snack"],
-    roasts: [
-      "A food note? Your fridge is right there. Stop documenting and start cooking.",
-      "Writing about food while probably ordering UberEats. The duality of man.",
-      "Gordon Ramsay would look at this note and just whisper... 'pathetic.'",
-      "Your cooking skills are so bad, even the smoke alarm cheers when you order takeout."
     ]
   }
 ];
@@ -76,38 +69,11 @@ const GENERAL_ROASTS = [
   "Your thoughts are like default folders: empty and unorganized.",
   "Writing a note is a great way to pretend you have your life together. Keep dreaming!",
   "This note has the energy of a participation trophy. You showed up, but that's about it.",
-  "Somewhere out there, a tree produced oxygen for you to write THIS. Apologize to that tree.",
-  "If notes could file for divorce, this one would've already hired a lawyer.",
-  "Congratulations on documenting the most unremarkable thought in human history."
+  "Somewhere out there, a tree produced oxygen for you to write THIS. Apologize to that tree."
 ];
 
 // ─────────────────────────────────────────────────────────────
-// SOUND EFFECTS POOL — large variety, always randomly picked
-// ─────────────────────────────────────────────────────────────
-const SOUNDS = [
-  "https://www.myinstants.com/media/sounds/emotional-damage-meme.mp3",
-  "https://www.myinstants.com/media/sounds/bruh.mp3",
-  "https://www.myinstants.com/media/sounds/sadviolin.mp3",
-  "https://www.myinstants.com/media/sounds/windows-xp-error.mp3",
-  "https://www.myinstants.com/media/sounds/directed-by-robert-b-weide.mp3",
-  "https://www.myinstants.com/media/sounds/oof_x200.mp3",
-  "https://www.myinstants.com/media/sounds/the-rock-sus.mp3",
-  "https://www.myinstants.com/media/sounds/wow-so-cool.mp3",
-  "https://www.myinstants.com/media/sounds/among-us-role-reveal-sound.mp3",
-  "https://www.myinstants.com/media/sounds/taco-bell-bong-sfx.mp3",
-  "https://www.myinstants.com/media/sounds/dun-dun-dun.mp3",
-  "https://www.myinstants.com/media/sounds/inception-horn.mp3",
-  "https://www.myinstants.com/media/sounds/the-price-is-right-losing-horn.mp3",
-  "https://www.myinstants.com/media/sounds/nani.mp3",
-  "https://www.myinstants.com/media/sounds/roblox-death-sound_1.mp3",
-  "https://www.myinstants.com/media/sounds/wii-sports-knockout.mp3",
-  "https://www.myinstants.com/media/sounds/vine-boom.mp3",
-  "https://www.myinstants.com/media/sounds/metal-pipe-falling-sound-effect.mp3"
-];
-
-// ─────────────────────────────────────────────────────────────
-// CONTENT-BASED KEYWORD EXTRACTION
-// Pulls real words from the user's note to build search queries
+// STOP WORDS & CONTENT EXTRACTION
 // ─────────────────────────────────────────────────────────────
 const STOP_WORDS = new Set([
   "i", "me", "my", "the", "a", "an", "is", "am", "are", "was", "were",
@@ -116,31 +82,23 @@ const STOP_WORDS = new Set([
   "to", "of", "in", "for", "on", "with", "at", "by", "from", "as",
   "into", "about", "it", "its", "this", "that", "and", "but", "or",
   "so", "if", "not", "no", "just", "also", "than", "then", "very",
-  "too", "some", "all", "any", "each", "much", "more", "most", "here",
-  "there", "when", "how", "what", "which", "who", "up", "out", "going",
-  "want", "need", "get", "got", "make", "made", "know", "think", "go",
-  "really", "thing", "things", "still", "even", "like", "one", "two"
+  "too", "some", "all", "any", "each", "much", "more", "most", "here"
 ]);
 
 function extractSearchTerms(title, content) {
   const allText = `${title} ${content}`;
-  // Pull out meaningful words (3+ chars, not stop words)
   const words = allText
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, "")
     .split(/\s+/)
     .filter((w) => w.length >= 3 && !STOP_WORDS.has(w));
 
-  // Remove duplicates
   const unique = [...new Set(words)];
-
-  // Shuffle and pick 2-4 random content words
   const shuffled = unique.sort(() => Math.random() - 0.5);
   const picked = shuffled.slice(0, Math.min(3, shuffled.length));
 
-  // If we got nothing useful, return a random funny fallback
   if (picked.length === 0) {
-    const fallbacks = ["cringe fail", "sarcastic reaction", "facepalm moment", "disappointed", "bruh moment", "awkward silence"];
+    const fallbacks = ["viral meme", "instagram reaction", "cringe fail", "sarcastic reaction"];
     return fallbacks[Math.floor(Math.random() * fallbacks.length)];
   }
 
@@ -148,156 +106,104 @@ function extractSearchTerms(title, content) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// MEDIA SEARCH ENGINE
-// Searches the internet for GIFs, stickers, or clips based on
-// actual note content. Different result every single time.
+// GIPHY INSTAGRAM & TIKTOK VIRAL MEDIA ENGINE
 // ─────────────────────────────────────────────────────────────
+async function fetchMemeMedia(contentSearchTerms, aiSearchPhrase) {
+  const apiKey = process.env.GIPHY_API_KEY || "HnzXC3svlF6dYEtayKR32Z6IEP7jfsT5";
+  const viralModifiers = ["instagram meme", "viral reaction", "tiktok meme", "funny roast", "fail reaction", "savage meme"];
+  const randomMod = viralModifiers[Math.floor(Math.random() * viralModifiers.length)];
 
-const GIPHY_API_KEY = process.env.GIPHY_API_KEY || "dc6zaTOxFJmzC";
-const TENOR_API_KEY = "LIVDTRZKBEDH";
+  const baseQuery = aiSearchPhrase || contentSearchTerms;
+  const searchQuery = encodeURIComponent(`${baseQuery} ${randomMod}`);
 
-/**
- * Searches Giphy for content. Returns { url, mediaType }.
- * mediaType is either "gif" or "sticker".
- */
-async function searchGiphy(searchQuery) {
-  const isSticker = Math.random() > 0.5;
+  // Randomize between GIFs and transparent Stickers
+  const isSticker = Math.random() > 0.4;
   const endpoint = isSticker ? "stickers" : "gifs";
   const mediaType = isSticker ? "sticker" : "gif";
-  const query = encodeURIComponent(searchQuery);
-  const offset = Math.floor(Math.random() * 50); // random page offset for variety
-  const url = `https://api.giphy.com/v1/${endpoint}/search?api_key=${GIPHY_API_KEY}&q=${query}&limit=25&offset=${offset}&rating=pg`;
+
+  const randomOffset = Math.floor(Math.random() * 30);
+  const url = `https://api.giphy.com/v1/${endpoint}/search?api_key=${apiKey}&q=${searchQuery}&limit=25&offset=${randomOffset}&rating=pg`;
 
   try {
     const res = await fetch(url);
-    const result = await res.json();
-    if (result.data && result.data.length > 0) {
-      const pick = result.data[Math.floor(Math.random() * result.data.length)];
-      return { url: pick.images.original.url, mediaType };
-    }
-  } catch (err) {
-    console.warn("Giphy search failed:", err.message);
-  }
-  return null;
-}
-
-/**
- * Searches Tenor for content. Returns { url, mediaType }.
- */
-async function searchTenor(searchQuery) {
-  const query = encodeURIComponent(searchQuery);
-  const pos = Math.floor(Math.random() * 30); // random starting position
-  const url = `https://g.tenor.com/v1/search?q=${query}&key=${TENOR_API_KEY}&limit=25&pos=${pos}&media_filter=minimal`;
-
-  try {
-    const res = await fetch(url);
-    const result = await res.json();
-    if (result.results && result.results.length > 0) {
-      const pick = result.results[Math.floor(Math.random() * result.results.length)];
-      const media = pick.media?.[0];
-      if (media?.gif?.url) {
-        return { url: media.gif.url, mediaType: "gif" };
+    if (res.ok) {
+      const result = await res.json();
+      if (result.data && result.data.length > 0) {
+        const pick = result.data[Math.floor(Math.random() * result.data.length)];
+        return {
+          url: pick.images.original.url || pick.images.downsized_medium.url,
+          mediaType
+        };
       }
     }
   } catch (err) {
-    console.warn("Tenor search failed:", err.message);
-  }
-  return null;
-}
-
-/**
- * Main media fetcher. Searches the internet using actual note content.
- * Randomly routes between Giphy and Tenor, uses content-derived search terms,
- * and applies random modifiers for maximum variety.
- */
-async function fetchMemeMedia(contentSearchTerms, aiSearchPhrase) {
-  // Build multiple search strategies for variety
-  const modifiers = ["funny", "meme", "reaction", "fail", "roast", "savage", "cringe", "lol"];
-  const randomMod = modifiers[Math.floor(Math.random() * modifiers.length)];
-
-  // Use AI-provided search phrase if available, otherwise use content-extracted terms
-  const baseQuery = aiSearchPhrase || contentSearchTerms;
-  const searchQuery = `${baseQuery} ${randomMod}`;
-
-  // Fire BOTH engines concurrently for speed, pick whichever returns first
-  const [giphyResult, tenorResult] = await Promise.all([
-    searchGiphy(searchQuery),
-    searchTenor(searchQuery)
-  ]);
-
-  // Collect all successful results into a pool and pick randomly
-  const pool = [giphyResult, tenorResult].filter(Boolean);
-
-  if (pool.length > 0) {
-    return pool[Math.floor(Math.random() * pool.length)];
+    console.warn("Giphy API fetch failed:", err.message);
   }
 
-  // If both failed with the content query, try a generic funny fallback
-  const emergencyQueries = ["sarcastic meme", "facepalm reaction", "disappointed reaction", "cringe meme", "bruh meme"];
-  const emergencyQuery = emergencyQueries[Math.floor(Math.random() * emergencyQueries.length)];
-  const emergencyResult = await searchGiphy(emergencyQuery);
-  if (emergencyResult) return emergencyResult;
+  // Backup Giphy Trending endpoint search
+  try {
+    const trendingUrl = `https://api.giphy.com/v1/gifs/trending?api_key=${apiKey}&limit=25&offset=${randomOffset}&rating=pg`;
+    const res = await fetch(trendingUrl);
+    if (res.ok) {
+      const result = await res.json();
+      if (result.data && result.data.length > 0) {
+        const pick = result.data[Math.floor(Math.random() * result.data.length)];
+        return {
+          url: pick.images.original.url,
+          mediaType: "gif"
+        };
+      }
+    }
+  } catch (err) {
+    console.warn("Giphy trending fallback failed:", err.message);
+  }
 
-  // Absolute last resort: hardcoded GIF
+  // Last-resort fallback GIF
   return {
     url: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2FqdTV0Z2cwbW55ejVpZnFzZG10bmk1azVzZ3psYW5qazh1NHl5bSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/129NVCr1U09si4/giphy.gif",
     mediaType: "gif"
   };
 }
 
-// ─────────────────────────────────────────────────────────────
-// LOCAL ROAST GENERATOR (no AI key needed)
-// ─────────────────────────────────────────────────────────────
-
 function generateLocalRoast(title, content) {
   const combinedText = `${title} ${content}`.toLowerCase();
-
   for (const category of LOCAL_ROASTS) {
     const matched = category.keywords.some((kw) => combinedText.includes(kw));
     if (matched) {
       return category.roasts[Math.floor(Math.random() * category.roasts.length)];
     }
   }
-
   return GENERAL_ROASTS[Math.floor(Math.random() * GENERAL_ROASTS.length)];
 }
 
 // ─────────────────────────────────────────────────────────────
-// MAIN EXPORT — generates roast + fetches media concurrently
+// MAIN ROAST GENERATOR
 // ─────────────────────────────────────────────────────────────
-
 export async function generateRoast(title, content) {
   const geminiKey = process.env.GEMINI_API_KEY;
-
-  // Step 1: Extract real search terms from the note content immediately
   const contentSearchTerms = extractSearchTerms(title, content);
 
-  // Step 2: Generate the roast text (AI or local) AND start media search concurrently
   let roastText = "";
-  let aiSearchPhrase = ""; // Gemini can suggest a creative search phrase
+  let aiSearchPhrase = "";
 
   if (geminiKey) {
-    const prompt = `You are a savage, sarcastic internet roaster. Read this note:
+    const prompt = `You are a savage, sarcastic internet roaster on Instagram & TikTok. Read this note:
 Title: "${title}"
 Content: "${content}"
 
-Do two things:
-1. Write a short (1-2 sentence), extremely sarcastic, witty, and savage roast about the user based on their note.
-2. Come up with a creative, funny 2-4 word search phrase to find a relatable meme/GIF about their note's topic. Make it specific and humorous. Examples: "crying over code", "gym motivation fail", "procrastinator sleeping", "broke student ramen".
-
-IMPORTANT: The search phrase should be DIFFERENT and CREATIVE every time. Do NOT repeat generic words like "sarcastic" or "lazy". Make it specific to what the user wrote.
+1. Write a short (1-2 sentence), viral, extremely sarcastic roast about the user based on their note.
+2. Come up with a creative, trending Instagram meme search phrase (2-4 words) to find a funny reaction GIF/Sticker.
 
 Output EXACTLY this JSON:
 {
-  "roast": "Your savage roast here",
-  "searchPhrase": "creative funny search phrase"
+  "roast": "Your viral savage roast here",
+  "searchPhrase": "trending viral search phrase"
 }`;
 
     const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`;
 
     try {
-      // Fire Gemini roast generation AND media search at the same time
-      const geminiPromise = fetch(geminiUrl, {
+      const response = await fetch(geminiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -306,64 +212,34 @@ Output EXACTLY this JSON:
         })
       });
 
-      // Start media search immediately with content-derived terms (don't wait for AI)
-      const mediaPromise = fetchMemeMedia(contentSearchTerms, null);
-
-      const [geminiResponse, earlyMedia] = await Promise.all([geminiPromise, mediaPromise]);
-
-      if (geminiResponse.ok) {
-        const data = await geminiResponse.json();
+      if (response.ok) {
+        const data = await response.json();
         const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
         const parsed = JSON.parse(jsonText);
         roastText = parsed.roast;
-        aiSearchPhrase = parsed.searchPhrase || "";
-
-        // If AI gave us a creative search phrase, do a SECOND media search with it
-        // and pick between the early result and this new one randomly
-        if (aiSearchPhrase) {
-          const aiMedia = await fetchMemeMedia(contentSearchTerms, aiSearchPhrase);
-          // Pick randomly between the two for extra variety
-          const mediaPool = [earlyMedia, aiMedia].filter(Boolean);
-          const finalMedia = mediaPool[Math.floor(Math.random() * mediaPool.length)];
-          const soundUrl = SOUNDS[Math.floor(Math.random() * SOUNDS.length)];
-          return {
-            text: roastText,
-            gifUrl: finalMedia.url,
-            mediaType: finalMedia.mediaType,
-            soundUrl
-          };
-        }
+        aiSearchPhrase = parsed.searchPhrase;
       } else {
-        const status = geminiResponse.status;
-        const body = await geminiResponse.text();
-        console.warn(`Gemini API failed [${status}]: ${body.substring(0, 200)}`);
         roastText = generateLocalRoast(title, content);
       }
-
-      // Use early media result
-      const soundUrl = SOUNDS[Math.floor(Math.random() * SOUNDS.length)];
-      return {
-        text: roastText || generateLocalRoast(title, content),
-        gifUrl: earlyMedia.url,
-        mediaType: earlyMedia.mediaType,
-        soundUrl
-      };
     } catch (err) {
-      console.error("Gemini service error:", err.message);
+      console.error("Gemini API error:", err.message);
       roastText = generateLocalRoast(title, content);
     }
   } else {
     roastText = generateLocalRoast(title, content);
   }
 
-  // Fallback path: no Gemini or Gemini failed after catch
-  const media = await fetchMemeMedia(contentSearchTerms, null);
-  const soundUrl = SOUNDS[Math.floor(Math.random() * SOUNDS.length)];
+  // Fetch viral Giphy media
+  const media = await fetchMemeMedia(contentSearchTerms, aiSearchPhrase);
+
+  // Pick a random viral Instagram/TikTok sound effect from our soundboard
+  const selectedSound = VIRAL_SOUNDS[Math.floor(Math.random() * VIRAL_SOUNDS.length)];
 
   return {
     text: roastText,
     gifUrl: media.url,
     mediaType: media.mediaType,
-    soundUrl
+    soundUrl: selectedSound.url,
+    soundName: selectedSound.name
   };
 }

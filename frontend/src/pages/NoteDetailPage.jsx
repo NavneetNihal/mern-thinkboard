@@ -11,7 +11,7 @@ function NoteDetailPage() {
   const [note, setNote] = useState(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [roastData, setRoastData] = useState({ show: false, text: "", gifUrl: "", mediaType: "gif", soundUrl: "" })
+  const [roastData, setRoastData] = useState({ show: false, text: "", gifUrl: "", mediaType: "gif", soundUrl: "", soundName: "" })
 
   const navigate = useNavigate();
 
@@ -72,7 +72,8 @@ function NoteDetailPage() {
           text: res.data.roast.text,
           gifUrl: res.data.roast.gifUrl,
           mediaType: res.data.roast.mediaType || "gif",
-          soundUrl: res.data.roast.soundUrl
+          soundUrl: res.data.roast.soundUrl,
+          soundName: res.data.roast.soundName || ""
         })
       } else {
         navigate("/")
@@ -155,8 +156,9 @@ function NoteDetailPage() {
         gifUrl={roastData.gifUrl}
         mediaType={roastData.mediaType}
         soundUrl={roastData.soundUrl}
+        soundName={roastData.soundName}
         onClose={() => {
-          setRoastData({ show: false, text: "", gifUrl: "", mediaType: "gif", soundUrl: "" });
+          setRoastData({ show: false, text: "", gifUrl: "", mediaType: "gif", soundUrl: "", soundName: "" });
           navigate("/");
         }}
       />
