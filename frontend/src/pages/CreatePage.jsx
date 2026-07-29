@@ -3,11 +3,13 @@ import { ArrowLeftIcon } from 'lucide-react';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router';
+import RoastModal from '../components/RoastModal';
 
 function CreatePage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false)
+  const [roastData, setRoastData] = useState({ show: false, text: "", gifUrl: "" })
 
   const navigate = useNavigate();
 
@@ -19,9 +21,18 @@ function CreatePage() {
     }
     setLoading(true)
     try {
-      await api.post("/notes", { title, content })
+      const res = await api.post("/notes", { title, content })
       toast.success("Note created successfully")
-      navigate("/")
+      
+      if (res.data?.roast) {
+        setRoastData({
+          show: true,
+          text: res.data.roast.text,
+          gifUrl: res.data.roast.gifUrl
+        })
+      } else {
+        navigate("/")
+      }
     } catch (error) {
       console.log("Error creating note", error);
       if (error.response?.status === 429) {
@@ -87,6 +98,15 @@ function CreatePage() {
           </div>
         </div>
       </div>
+      <RoastModal 
+        isOpen={roastData.show}
+        text={roastData.text}
+        gifUrl={roastData.gifUrl}
+        onClose={() => {
+          setRoastData({ show: false, text: "", gifUrl: "" });
+          navigate("/");
+        }}
+      />
     </div>
   );
 };

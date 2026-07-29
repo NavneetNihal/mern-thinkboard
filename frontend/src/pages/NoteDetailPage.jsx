@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router'
 import api from "../lib/axios";
 import { LoaderIcon, ArrowLeftIcon, Trash2Icon } from 'lucide-react';
 import toast from 'react-hot-toast';
+import RoastModal from '../components/RoastModal';
 
 
 function NoteDetailPage() {
@@ -10,6 +11,7 @@ function NoteDetailPage() {
   const [note, setNote] = useState(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [roastData, setRoastData] = useState({ show: false, text: "", gifUrl: "" })
 
   const navigate = useNavigate();
 
@@ -56,21 +58,29 @@ function NoteDetailPage() {
     if (!note.title.trim() || !note.content.trim()) {
       toast.error("Please add title and content");
       return;
-    };
+    }
 
     setSaving(true)
 
     try {
-      await api.put(`/notes/${id}`, note)
+      const res = await api.put(`/notes/${id}`, note)
       toast.success("Note updated successfully")
-      navigate("/")
+      
+      if (res.data?.roast) {
+        setRoastData({
+          show: true,
+          text: res.data.roast.text,
+          gifUrl: res.data.roast.gifUrl
+        })
+      } else {
+        navigate("/")
+      }
     } catch (error) {
       console.log("Error saving the note", error);
       toast.error("Failed to update the note")
-    } finally{
+    } finally {
       setSaving(false)
     }
-
   };
 
   if (loading) {
@@ -137,6 +147,15 @@ function NoteDetailPage() {
           </div>
         </div>
       </div>
+      <RoastModal 
+        isOpen={roastData.show}
+        text={roastData.text}
+        gifUrl={roastData.gifUrl}
+        onClose={() => {
+          setRoastData({ show: false, text: "", gifUrl: "" });
+          navigate("/");
+        }}
+      />
     </div>
   );
 }
