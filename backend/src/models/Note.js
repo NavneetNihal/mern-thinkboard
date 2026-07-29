@@ -12,10 +12,15 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    userId: {
+        type: String,
+        required: true,
+        index: true // Fast lookup performance per user
+    }
 },
     { timestamps: true } // createdAt, updatedAt
 );
 
-const Note = mongoose.model("Note", noteSchema)
+const Note = mongoose.model("Note", noteSchema);
 
 export default Note;
