@@ -77,30 +77,54 @@ function getSoundUrl(searchKey) {
 }
 
 /**
- * Searches Giphy for a relevant funny GIF or Sticker using the provided query key.
- * Dynamically toggles between standard GIFs and transparent Stickers for variety.
+ * Searches Giphy or Tenor dynamically for a relatable GIF, video snippet, or transparent sticker.
+ * Randomly routes requests through Giphy or Tenor to ensure massive media variety.
  */
-async function fetchGiphyMeme(searchKey) {
-  const apiKey = "dc6zaTOxFJmzC"; // Public beta Giphy API key
-  const query = encodeURIComponent(`${searchKey} funny meme`);
-  
-  // 50% chance to fetch a transparent sticker, 50% to fetch a standard GIF
-  const isSticker = Math.random() > 0.5;
-  const endpoint = isSticker ? "stickers" : "gifs";
-  const url = `https://api.giphy.com/v1/${endpoint}/search?api_key=${apiKey}&q=${query}&limit=10&rating=pg`;
+async function fetchMemeMedia(searchKey) {
+  const querySuffixes = ["funny meme", "savage roast", "reaction fail", "facepalm", "cringe humor", "sarcastic"];
+  const randomSuffix = querySuffixes[Math.floor(Math.random() * querySuffixes.length)];
+  const query = encodeURIComponent(`${searchKey} ${randomSuffix}`);
 
-  try {
-    const res = await fetch(url);
-    const result = await res.json();
-    if (result.data && result.data.length > 0) {
-      const randomIndex = Math.floor(Math.random() * result.data.length);
-      return result.data[randomIndex].images.original.url;
+  // Randomly choose between Giphy and Tenor for media engine variety
+  const engine = Math.random() > 0.5 ? "giphy" : "tenor";
+
+  if (engine === "giphy") {
+    const apiKey = "dc6zaTOxFJmzC"; // Public beta key
+    const isSticker = Math.random() > 0.5;
+    const endpoint = isSticker ? "stickers" : "gifs";
+    const url = `https://api.giphy.com/v1/${endpoint}/search?api_key=${apiKey}&q=${query}&limit=20&rating=pg`;
+
+    try {
+      const res = await fetch(url);
+      const result = await res.json();
+      if (result.data && result.data.length > 0) {
+        const randomIndex = Math.floor(Math.random() * result.data.length);
+        return result.data[randomIndex].images.original.url;
+      }
+    } catch (e) {
+      console.warn("Giphy fetch failed, trying Tenor as fallback", e);
     }
-  } catch (error) {
-    console.error("Giphy Search API error, falling back to local asset", error);
   }
 
-  // Fallback map
+  // Tenor API search (using a highly reliable public developer key)
+  const tenorKey = "LIVDTRZKBEDH";
+  const tenorUrl = `https://g.tenor.com/v1/search?q=${query}&key=${tenorKey}&limit=20&media_filter=minimal`;
+
+  try {
+    const res = await fetch(tenorUrl);
+    const result = await res.json();
+    if (result.results && result.results.length > 0) {
+      const randomIndex = Math.floor(Math.random() * result.results.length);
+      const media = result.results[randomIndex].media?.[0];
+      if (media?.gif?.url) {
+        return media.gif.url;
+      }
+    }
+  } catch (error) {
+    console.error("Tenor Search API error", error);
+  }
+
+  // Ultimate fallback map
   if (searchKey.includes("gym")) return DEFAULT_GIFS.gym;
   if (searchKey.includes("love") || searchKey.includes("cringe")) return DEFAULT_GIFS.love;
   if (searchKey.includes("coding") || searchKey.includes("developer")) return DEFAULT_GIFS.coding;
@@ -123,8 +147,13 @@ function generateLocalRoast(title, content) {
     }
   }
 
+  const FallbackKeys = [
+    "lazy", "crying", "cringe", "facepalm", "sarcastic", "screaming-computer", 
+    "fail", "sleeping", "bored", "face-plant", "head-bang", "smh", "sigh", "delusional"
+  ];
+  const randomKey = FallbackKeys[Math.floor(Math.random() * FallbackKeys.length)];
   const randomGeneral = GENERAL_ROASTS[Math.floor(Math.random() * GENERAL_ROASTS.length)];
-  return { roast: randomGeneral, searchKey: "sarcastic" };
+  return { roast: randomGeneral, searchKey: randomKey };
 }
 
 /**
@@ -187,8 +216,8 @@ Format your output EXACTLY as a JSON object with keys:
     searchKey = fallback.searchKey;
   }
 
-  // Fetch the GIF URL from Giphy
-  const gifUrl = await fetchGiphyMeme(searchKey);
+  // Fetch the GIF URL from Giphy or Tenor dynamically
+  const gifUrl = await fetchMemeMedia(searchKey);
   const soundUrl = getSoundUrl(searchKey);
 
   return {
