@@ -20,6 +20,41 @@ function RoastModal({ isOpen, text, gifUrl, mediaType, soundUrl, soundName, onCl
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
+  // Play sound function for auto-play and manual click replay
+  const playSound = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((e) => {
+          console.warn("Audio playback blocked or failed:", e.message);
+          setIsPlaying(false);
+        });
+    } else if (soundUrl) {
+      const audio = new Audio(soundUrl);
+      audio.volume = 0.55;
+      audioRef.current = audio;
+      audio.onplay = () => setIsPlaying(true);
+      audio.onended = () => setIsPlaying(false);
+      audio.onpause = () => setIsPlaying(false);
+      audio.onerror = () => {
+        console.warn("Sound URL failed, retrying with backup sound...");
+        const backup = new Audio("https://www.myinstants.com/media/sounds/vine-boom.mp3");
+        backup.volume = 0.55;
+        audioRef.current = backup;
+        backup.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+      };
+      audio
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((e) => {
+          console.warn("Audio playback blocked by browser policy:", e.message);
+          setIsPlaying(false);
+        });
+    }
+  };
+
   // Play viral sound effect when modal opens
   useEffect(() => {
     if (!isOpen || !soundUrl) return;
@@ -31,10 +66,20 @@ function RoastModal({ isOpen, text, gifUrl, mediaType, soundUrl, soundName, onCl
     audio.onplay = () => setIsPlaying(true);
     audio.onended = () => setIsPlaying(false);
     audio.onpause = () => setIsPlaying(false);
+    audio.onerror = () => {
+      console.warn("Primary audio URL failed to load. Switching to reliable backup sound...");
+      const backupAudio = new Audio("https://www.myinstants.com/media/sounds/vine-boom.mp3");
+      backupAudio.volume = 0.55;
+      audioRef.current = backupAudio;
+      backupAudio.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+    };
 
-    audio.play().catch((e) => {
-      console.warn("Autoplay blocked by browser policy:", e.message);
-    });
+    audio
+      .play()
+      .then(() => setIsPlaying(true))
+      .catch((e) => {
+        console.warn("Autoplay blocked by browser policy:", e.message);
+      });
 
     return () => {
       audio.pause();
@@ -136,9 +181,14 @@ function RoastModal({ isOpen, text, gifUrl, mediaType, soundUrl, soundName, onCl
             {isSticker ? "🎯 Sticker" : "🎬 GIF"}
           </span>
 
-          {/* Viral Sound Badge */}
+          {/* Viral Sound Badge - Clickable to Replay */}
           {soundName && (
-            <span className="flex items-center gap-1.5 text-[11px] font-bold tracking-wider px-3 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-500">
+            <button
+              type="button"
+              onClick={playSound}
+              className="flex items-center gap-1.5 text-[11px] font-bold tracking-wider px-3 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-500 hover:bg-red-500/30 transition-all cursor-pointer"
+              title="Click to play / replay sound!"
+            >
               <MusicIcon className="size-3.5" />
               <span>{soundName}</span>
               
@@ -150,7 +200,7 @@ function RoastModal({ isOpen, text, gifUrl, mediaType, soundUrl, soundName, onCl
                   <span className="w-0.5 bg-red-500 h-full animate-bounce"></span>
                 </span>
               )}
-            </span>
+            </button>
           )}
         </div>
 
