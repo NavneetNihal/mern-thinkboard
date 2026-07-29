@@ -2,10 +2,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // ─────────────────────────────────────────────────────────────
-// INSTAGRAM & TIKTOK VIRAL SOUNDBOARD LIBRARY
+// 52+ MEGA VIRAL INSTAGRAM & TIKTOK SOUNDBOARD LIBRARY (2026)
 // ─────────────────────────────────────────────────────────────
 const VIRAL_SOUNDS = [
-  { name: "Faah / Huh Meme 🔊", url: "https://www.myinstants.com/media/sounds/huh-cat-meme-sound.mp3" },
+  { name: "Faaaaaaa! 🎺🔥", url: "https://www.myinstants.com/media/sounds/faah.mp3" },
+  { name: "Faaah Insta Meme 🎺", url: "https://www.myinstants.com/media/sounds/faah_1.mp3" },
+  { name: "Huh Cat / What?! 🔊", url: "https://www.myinstants.com/media/sounds/huh-cat-meme-sound.mp3" },
   { name: "Vine Boom 💥", url: "https://www.myinstants.com/media/sounds/vine-boom.mp3" },
   { name: "Emotional Damage! 💔", url: "https://www.myinstants.com/media/sounds/emotional-damage-meme.mp3" },
   { name: "Bruh Moment 🤦‍♂️", url: "https://www.myinstants.com/media/sounds/bruh.mp3" },
@@ -18,8 +20,63 @@ const VIRAL_SOUNDS = [
   { name: "The Rock Sus Eyebrow 🤨", url: "https://www.myinstants.com/media/sounds/the-rock-sus.mp3" },
   { name: "Roblox Death Oof 💀", url: "https://www.myinstants.com/media/sounds/oof_x200.mp3" },
   { name: "Taco Bell Bong 🔔", url: "https://www.myinstants.com/media/sounds/taco-bell-bong-sfx.mp3" },
-  { name: "Windows XP Fatal Error 💻", url: "https://www.myinstants.com/media/sounds/windows-xp-error.mp3" }
+  { name: "Windows XP Fatal Error 💻", url: "https://www.myinstants.com/media/sounds/windows-xp-error.mp3" },
+  { name: "Bombastic Side Eye 👁️", url: "https://www.myinstants.com/media/sounds/bombastic-side-eye.mp3" },
+  { name: "Criminal Side Eye 😒", url: "https://www.myinstants.com/media/sounds/side-eye-meme.mp3" },
+  { name: "Heheheha Laugh 👑", url: "https://www.myinstants.com/media/sounds/clash-royale-heheheha.mp3" },
+  { name: "Aww Hell Nah 🙅‍♂️", url: "https://www.myinstants.com/media/sounds/aww-hell-nah.mp3" },
+  { name: "Hold Up Wait A Minute ✋", url: "https://www.myinstants.com/media/sounds/hold-up-wait-a-minute.mp3" },
+  { name: "Why You Always Lying 🎶", url: "https://www.myinstants.com/media/sounds/why-you-always-lying.mp3" },
+  { name: "Screaming Goat 🐐", url: "https://www.myinstants.com/media/sounds/screaming-goat.mp3" },
+  { name: "Run Meme Beat 🏃‍♂️", url: "https://www.myinstants.com/media/sounds/run-meme-sound.mp3" },
+  { name: "iPhone Trap Ringtone 📱", url: "https://www.myinstants.com/media/sounds/iphone-trap-remix.mp3" },
+  { name: "Nani?! ⚡", url: "https://www.myinstants.com/media/sounds/nani.mp3" },
+  { name: "SpongeBob Fail Flute 🪈", url: "https://www.myinstants.com/media/sounds/spongebob-fail.mp3" },
+  { name: "Among Us Role Reveal 📮", url: "https://www.myinstants.com/media/sounds/among-us-role-reveal-sound.mp3" },
+  { name: "Among Us Emergency 🚨", url: "https://www.myinstants.com/media/sounds/emergency-meeting-among-us.mp3" },
+  { name: "Inception BWAAAH 📢", url: "https://www.myinstants.com/media/sounds/inception-horn.mp3" },
+  { name: "Dun Dun Dun! 🥁", url: "https://www.myinstants.com/media/sounds/dun-dun-dun.mp3" },
+  { name: "Price is Right Losing Horn 🎺", url: "https://www.myinstants.com/media/sounds/the-price-is-right-losing-horn.mp3" },
+  { name: "Fortnite Knockdown 🎮", url: "https://www.myinstants.com/media/sounds/fortnite-knocked-down.mp3" },
+  { name: "Anime Wow Sound 🌟", url: "https://www.myinstants.com/media/sounds/wow-so-cool.mp3" },
+  { name: "Wasted (GTA V) 🚗", url: "https://www.myinstants.com/media/sounds/gta-v-wasted.mp3" },
+  { name: "Hitmarker CoD 🎯", url: "https://www.myinstants.com/media/sounds/hitmarker-sound.mp3" },
+  { name: "No God Please No 😭", url: "https://www.myinstants.com/media/sounds/no-god-please-no.mp3" },
+  { name: "Sigma Male Grindset 🕶️", url: "https://www.myinstants.com/media/sounds/sigma-male.mp3" },
+  { name: "Sheesh! 🗣️", url: "https://www.myinstants.com/media/sounds/sheesh-sound.mp3" },
+  { name: "Airhorn Triple Blast 📯", url: "https://www.myinstants.com/media/sounds/mlg-airhorn.mp3" },
+  { name: "Sarcastic Applause 👏", url: "https://www.myinstants.com/media/sounds/applause-sound-effect.mp3" },
+  { name: "Cricket Chirps 🦗", url: "https://www.myinstants.com/media/sounds/cricket-chirp.mp3" },
+  { name: "Record Scratch 🎙️", url: "https://www.myinstants.com/media/sounds/record-scratch.mp3" },
+  { name: "Slip Cartoon Fall 🍌", url: "https://www.myinstants.com/media/sounds/cartoon-slip.mp3" },
+  { name: "Windows Shutdown 🔌", url: "https://www.myinstants.com/media/sounds/windows-xp-shutdown.mp3" },
+  { name: "Keyboard Fury Typing ⌨️", url: "https://www.myinstants.com/media/sounds/fast-keyboard-typing.mp3" },
+  { name: "What the Dog Doin 🐶", url: "https://www.myinstants.com/media/sounds/what-the-dog-doin.mp3" },
+  { name: "Bing Chilling 🍦", url: "https://www.myinstants.com/media/sounds/bing-chilling.mp3" },
+  { name: "Rizz Whistle 🎷", url: "https://www.myinstants.com/media/sounds/rizz-whistle.mp3" },
+  { name: "Crying Baby Meme 👶", url: "https://www.myinstants.com/media/sounds/crying-baby.mp3" },
+  { name: "Gawk Gawk 3000 🔊", url: "https://www.myinstants.com/media/sounds/gawk-gawk.mp3" },
+  { name: "PacMan Death 🕹️", url: "https://www.myinstants.com/media/sounds/pacman-death.mp3" }
 ];
+
+// Memory buffer to prevent repeating recently played sounds
+const recentlyPlayedSounds = [];
+
+function getNextViralSound() {
+  // Filter out recent sound URLs to guarantee high sound rotation
+  const candidates = VIRAL_SOUNDS.filter((s) => !recentlyPlayedSounds.includes(s.url));
+  const pool = candidates.length > 0 ? candidates : VIRAL_SOUNDS;
+
+  const selected = pool[Math.floor(Math.random() * pool.length)];
+
+  // Track history (keep last 20 sounds in history buffer)
+  recentlyPlayedSounds.push(selected.url);
+  if (recentlyPlayedSounds.length > 20) {
+    recentlyPlayedSounds.shift();
+  }
+
+  return selected;
+}
 
 // ─────────────────────────────────────────────────────────────
 // LOCAL ROAST DATABASE (Fallback when Gemini is offline)
@@ -121,7 +178,7 @@ async function fetchMemeMedia(contentSearchTerms, aiSearchPhrase) {
   const endpoint = isSticker ? "stickers" : "gifs";
   const mediaType = isSticker ? "sticker" : "gif";
 
-  const randomOffset = Math.floor(Math.random() * 30);
+  const randomOffset = Math.floor(Math.random() * 50);
   const url = `https://api.giphy.com/v1/${endpoint}/search?api_key=${apiKey}&q=${searchQuery}&limit=25&offset=${randomOffset}&rating=pg`;
 
   try {
@@ -232,8 +289,8 @@ Output EXACTLY this JSON:
   // Fetch viral Giphy media
   const media = await fetchMemeMedia(contentSearchTerms, aiSearchPhrase);
 
-  // Pick a random viral Instagram/TikTok sound effect from our soundboard
-  const selectedSound = VIRAL_SOUNDS[Math.floor(Math.random() * VIRAL_SOUNDS.length)];
+  // Pick a non-repeating viral sound from our 52+ soundboard
+  const selectedSound = getNextViralSound();
 
   return {
     text: roastText,
