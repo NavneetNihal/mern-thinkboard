@@ -4,7 +4,8 @@
   "description": "MERN Thinkboard is a premium, full-stack notes management application. It serves as a dashboard where users can perform complete **CRUD operations** (Create, Read, Update, Delete) on notes. The project features automated **Rate Limiting** backed by Redis to prevent spamming and slow down API requests under load, complete with custom UI fallback states.",
   "main": "index.js",
   "scripts": {
-    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
   },
   "repository": {
     "type": "git",
