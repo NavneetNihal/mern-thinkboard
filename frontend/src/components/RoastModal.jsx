@@ -5,8 +5,18 @@ import { FlameIcon } from "lucide-react";
  * A premium glassmorphic modal that displays a savage roast text (with a typewriter animation)
  * and a funny Giphy GIF to mock the user upon saving a note.
  */
-function RoastModal({ isOpen, text, gifUrl, onClose }) {
+function RoastModal({ isOpen, text, gifUrl, soundUrl, onClose }) {
   const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    if (!isOpen || !soundUrl) return;
+
+    const audio = new Audio(soundUrl);
+    audio.volume = 0.45; // balanced system alert volume
+    audio.play().catch((e) => {
+      console.warn("Autoplay block prevented prompt alert sound:", e);
+    });
+  }, [isOpen, soundUrl]);
 
   useEffect(() => {
     if (!isOpen || !text) return;

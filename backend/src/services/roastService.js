@@ -56,13 +56,38 @@ const DEFAULT_GIFS = {
   general: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3V4Mzh2azhvdzh4MmpsaGszZGN1MXNtbjVrbmVnMDlycmtyaDdxayZlcD12MV9naWZzX3NlYXJjaCZjdD1n/G3w5bFfY85rag/giphy.gif"
 };
 
+const SOUNDS = [
+  "https://www.myinstants.com/media/sounds/emotional-damage-meme.mp3",
+  "https://www.myinstants.com/media/sounds/bruh.mp3",
+  "https://www.myinstants.com/media/sounds/sadviolin.mp3",
+  "https://www.myinstants.com/media/sounds/windows-xp-error.mp3",
+  "https://www.myinstants.com/media/sounds/directed-by-robert-b-weide.mp3"
+];
+
+function getSoundUrl(searchKey) {
+  const sk = searchKey.toLowerCase();
+  if (sk.includes("lazy") || sk.includes("procrastinate") || sk.includes("sleep")) return SOUNDS[1]; // Bruh
+  if (sk.includes("gym") || sk.includes("workout") || sk.includes("tired")) return SOUNDS[1]; // Bruh
+  if (sk.includes("love") || sk.includes("lonely") || sk.includes("cringe")) return SOUNDS[0]; // Emotional Damage
+  if (sk.includes("bug") || sk.includes("coding") || sk.includes("error") || sk.includes("fail") || sk.includes("program")) return SOUNDS[3]; // Windows XP Error
+  if (sk.includes("sarcastic") || sk.includes("clap") || sk.includes("general")) return SOUNDS[4]; // Robert Weide
+  
+  // Pick a random sound as fallback
+  return SOUNDS[Math.floor(Math.random() * SOUNDS.length)];
+}
+
 /**
- * Searches Giphy for a relevant funny GIF using the provided query key.
+ * Searches Giphy for a relevant funny GIF or Sticker using the provided query key.
+ * Dynamically toggles between standard GIFs and transparent Stickers for variety.
  */
 async function fetchGiphyMeme(searchKey) {
   const apiKey = "dc6zaTOxFJmzC"; // Public beta Giphy API key
   const query = encodeURIComponent(`${searchKey} funny meme`);
-  const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${query}&limit=5&rating=pg`;
+  
+  // 50% chance to fetch a transparent sticker, 50% to fetch a standard GIF
+  const isSticker = Math.random() > 0.5;
+  const endpoint = isSticker ? "stickers" : "gifs";
+  const url = `https://api.giphy.com/v1/${endpoint}/search?api_key=${apiKey}&q=${query}&limit=10&rating=pg`;
 
   try {
     const res = await fetch(url);
@@ -164,9 +189,11 @@ Format your output EXACTLY as a JSON object with keys:
 
   // Fetch the GIF URL from Giphy
   const gifUrl = await fetchGiphyMeme(searchKey);
+  const soundUrl = getSoundUrl(searchKey);
 
   return {
     text: roastText,
-    gifUrl: gifUrl
+    gifUrl: gifUrl,
+    soundUrl: soundUrl
   };
 }
