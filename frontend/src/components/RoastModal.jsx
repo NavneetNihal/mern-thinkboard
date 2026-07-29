@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FlameIcon, Volume2Icon, VolumeXIcon, MusicIcon } from "lucide-react";
 
 /**
@@ -45,20 +45,29 @@ function RoastModal({ isOpen, text, gifUrl, mediaType, soundUrl, soundName, onCl
 
   // Typewriter text animation
   useEffect(() => {
-    if (!isOpen || !text) return;
+    if (!isOpen || !text) {
+      return;
+    }
 
     let index = 0;
-    setDisplayedText("");
-    const interval = setInterval(() => {
-      if (index < text.length) {
-        setDisplayedText((prev) => prev + text.charAt(index));
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 22);
+    let current = "";
 
-    return () => clearInterval(interval);
+    const timer = setTimeout(() => {
+      setDisplayedText("");
+      const interval = setInterval(() => {
+        if (index < text.length) {
+          current += text.charAt(index);
+          setDisplayedText(current);
+          index++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 22);
+
+      return () => clearInterval(interval);
+    }, 10);
+
+    return () => clearTimeout(timer);
   }, [isOpen, text]);
 
   const toggleMute = () => {
