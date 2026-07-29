@@ -121,7 +121,7 @@ const LOCAL_ROASTS = [
 ];
 
 const GENERAL_ROASTS = [
-  "Is this really the most important thing you had to write down today? Sarcastic applause.",
+  "Is this really the most important thing you had to write down today? Give yourself a round of applause. 👏",
   "I've seen grocery lists with more emotional depth than this note.",
   "Your thoughts are like default folders: empty and unorganized.",
   "Writing a note is a great way to pretend you have your life together. Keep dreaming!",
@@ -248,7 +248,7 @@ export async function generateRoast(title, content) {
 Title: "${title}"
 Content: "${content}"
 
-1. Write a short (1-2 sentence), viral, extremely sarcastic roast about the user based on their note.
+1. Write a short (1-2 sentence), viral, extremely sarcastic roast about the user based on their note. Do NOT write meta stage directions like "(applause)" or "Sarcastic applause."
 2. Come up with a creative, trending Instagram meme search phrase (2-4 words) to find a funny reaction GIF/Sticker.
 
 Output EXACTLY this JSON:
@@ -289,8 +289,17 @@ Output EXACTLY this JSON:
   // Fetch viral Giphy media
   const media = await fetchMemeMedia(contentSearchTerms, aiSearchPhrase);
 
-  // Pick a non-repeating viral sound from our 52+ soundboard
-  const selectedSound = getNextViralSound();
+  // Smart sound matching: match audio if roast text mentions specific action keywords
+  let selectedSound = null;
+  const lowerRoast = roastText.toLowerCase();
+
+  if (lowerRoast.includes("applause") || lowerRoast.includes("clap")) {
+    selectedSound = VIRAL_SOUNDS.find((s) => s.name.includes("Applause")) || getNextViralSound();
+  } else if (lowerRoast.includes("error") || lowerRoast.includes("bug")) {
+    selectedSound = VIRAL_SOUNDS.find((s) => s.name.includes("Windows XP")) || getNextViralSound();
+  } else {
+    selectedSound = getNextViralSound();
+  }
 
   return {
     text: roastText,
